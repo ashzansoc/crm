@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build --base=/assets/crm/frontend/ && yarn copy-html-entry",
+    "build:firebase": "vite build --base=/ --outDir=dist",
     "copy-html-entry": "cp ../crm/public/frontend/index.html ../crm/www/crm.html",
     "serve": "vite preview"
   },
@@ -15,6 +16,7 @@
     "@vitejs/plugin-vue": "^4.2.3",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
     "@vueuse/integrations": "^10.3.0",
+    "firebase": "^12.8.0",
     "frappe-ui": "0.1.261",
     "gemoji": "^8.1.0",
     "lodash": "^4.17.21",

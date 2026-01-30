@@ -1,0 +1,70 @@
+[debug] [2026-01-30T16:54:05.009Z] ----------------------------------------------------------------------
+[debug] [2026-01-30T16:54:05.010Z] Command:       /Users/ashutosh/.nvm/versions/node/v20.20.0/bin/node /Users/ashutosh/.npm/_npx/7750544ccf494d8b/node_modules/.bin/firebase deploy
+[debug] [2026-01-30T16:54:05.010Z] CLI Version:   15.5.1
+[debug] [2026-01-30T16:54:05.010Z] Platform:      darwin
+[debug] [2026-01-30T16:54:05.010Z] Node Version:  v20.20.0
+[debug] [2026-01-30T16:54:05.010Z] Time:          Fri Jan 30 2026 22:24:05 GMT+0530 (India Standard Time)
+[debug] [2026-01-30T16:54:05.010Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-01-30T16:54:05.011Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2026-01-30T16:54:05.579Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-30T16:54:05.579Z] > authorizing via signed-in user (ashutoshmondal9@gmail.com)
+[debug] [2026-01-30T16:54:05.579Z] [iam] checking project ashutosh-a2720 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-01-30T16:54:05.579Z] Checked if tokens are valid: false, expires at: 1760310016613
+[debug] [2026-01-30T16:54:05.579Z] Checked if tokens are valid: false, expires at: 1760310016613
+[debug] [2026-01-30T16:54:05.579Z] > refreshing access token with scopes: []
+[debug] [2026-01-30T16:54:05.580Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-01-30T16:54:05.580Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-01-30T16:54:05.858Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2026-01-30T16:54:05.858Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-01-30T16:54:05.867Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/ashutosh-a2720:testIamPermissions [none]
+[debug] [2026-01-30T16:54:05.867Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/ashutosh-a2720:testIamPermissions  x-goog-user-project=ashutosh-a2720
+[debug] [2026-01-30T16:54:05.867Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/ashutosh-a2720:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-01-30T16:54:06.248Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2026-01-30T16:54:06.248Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2026-01-30T16:54:07.467Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/ashutosh-a2720:testIamPermissions 403
+[debug] [2026-01-30T16:54:07.467Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/ashutosh-a2720:testIamPermissions {"error":{"code":403,"message":"Caller does not have required permission to use project ashutosh-a2720. Grant the caller the roles/serviceusage.serviceUsageConsumer role, or a custom role with the serviceusage.services.use permission, by visiting https://console.developers.google.com/iam-admin/iam/project?project=ashutosh-a2720 and then retry. Propagation of the new permission may take a few minutes.","status":"PERMISSION_DENIED","details":[{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"USER_PROJECT_DENIED","domain":"googleapis.com","metadata":{"consoleUrl":"https://console.developers.google.com/iam-admin/iam/project?project=ashutosh-a2720","containerInfo":"ashutosh-a2720","service":"cloudresourcemanager.googleapis.com","consumer":"projects/ashutosh-a2720"}},{"@type":"type.googleapis.com/google.rpc.LocalizedMessage","locale":"en-US","message":"Caller does not have required permission to use project ashutosh-a2720. Grant the caller the roles/serviceusage.serviceUsageConsumer role, or a custom role with the serviceusage.services.use permission, by visiting https://console.developers.google.com/iam-admin/iam/project?project=ashutosh-a2720 and then retry. Propagation of the new permission may take a few minutes."},{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Google developer console IAM admin","url":"https://console.developers.google.com/iam-admin/iam/project?project=ashutosh-a2720"}]}]}}
+[debug] [2026-01-30T16:54:07.468Z] [iam] error while checking permissions, command may fail: Request to https://cloudresourcemanager.googleapis.com/v1/projects/ashutosh-a2720:testIamPermissions had HTTP Error: 403, Caller does not have required permission to use project ashutosh-a2720. Grant the caller the roles/serviceusage.serviceUsageConsumer role, or a custom role with the serviceusage.services.use permission, by visiting https://console.developers.google.com/iam-admin/iam/project?project=ashutosh-a2720 and then retry. Propagation of the new permission may take a few minutes.
+[debug] [2026-01-30T16:54:07.468Z] Checked if tokens are valid: true, expires at: 1769795644858
+[debug] [2026-01-30T16:54:07.468Z] Checked if tokens are valid: true, expires at: 1769795644858
+[debug] [2026-01-30T16:54:07.468Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/ashutosh-a2720 [none]
+[debug] [2026-01-30T16:54:08.144Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/ashutosh-a2720 403
+[debug] [2026-01-30T16:54:08.144Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/ashutosh-a2720 {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2026-01-30T16:54:08.145Z] Request to https://firebase.googleapis.com/v1beta1/projects/ashutosh-a2720 had HTTP Error: 403, The caller does not have permission
+[debug] [2026-01-30T16:54:08.505Z] FirebaseError: Request to https://firebase.googleapis.com/v1beta1/projects/ashutosh-a2720 had HTTP Error: 403, The caller does not have permission
+    at responseToError (/Users/ashutosh/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/responseToError.js:53:12)
+    at RetryOperation._fn (/Users/ashutosh/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/apiv2.js:330:77)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[error] 
+[error] Error: Failed to get Firebase project ashutosh-a2720. Please make sure the project exists and your account has permission to access it.
+[debug] [2026-01-30T16:54:35.252Z] ----------------------------------------------------------------------
+[debug] [2026-01-30T16:54:35.253Z] Command:       /Users/ashutosh/.nvm/versions/node/v20.20.0/bin/node /Users/ashutosh/.npm/_npx/7750544ccf494d8b/node_modules/.bin/firebase deploy
+[debug] [2026-01-30T16:54:35.253Z] CLI Version:   15.5.1
+[debug] [2026-01-30T16:54:35.253Z] Platform:      darwin
+[debug] [2026-01-30T16:54:35.253Z] Node Version:  v20.20.0
+[debug] [2026-01-30T16:54:35.253Z] Time:          Fri Jan 30 2026 22:24:35 GMT+0530 (India Standard Time)
+[debug] [2026-01-30T16:54:35.253Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-01-30T16:54:35.843Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-30T16:54:35.843Z] > authorizing via signed-in user (ashutoshmondal9@gmail.com)
+[debug] [2026-01-30T16:54:35.843Z] [iam] checking project ashutosh-a2720 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-01-30T16:54:35.843Z] Checked if tokens are valid: true, expires at: 1769795644858
+[debug] [2026-01-30T16:54:35.843Z] Checked if tokens are valid: true, expires at: 1769795644858
+[debug] [2026-01-30T16:54:35.844Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/ashutosh-a2720:testIamPermissions [none]
+[debug] [2026-01-30T16:54:35.844Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/ashutosh-a2720:testIamPermissions  x-goog-user-project=ashutosh-a2720
+[debug] [2026-01-30T16:54:35.844Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/ashutosh-a2720:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-01-30T16:54:37.421Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/ashutosh-a2720:testIamPermissions 403
+[debug] [2026-01-30T16:54:37.421Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/ashutosh-a2720:testIamPermissions {"error":{"code":403,"message":"Caller does not have required permission to use project ashutosh-a2720. Grant the caller the roles/serviceusage.serviceUsageConsumer role, or a custom role with the serviceusage.services.use permission, by visiting https://console.developers.google.com/iam-admin/iam/project?project=ashutosh-a2720 and then retry. Propagation of the new permission may take a few minutes.","status":"PERMISSION_DENIED","details":[{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"USER_PROJECT_DENIED","domain":"googleapis.com","metadata":{"consoleUrl":"https://console.developers.google.com/iam-admin/iam/project?project=ashutosh-a2720","consumer":"projects/ashutosh-a2720","containerInfo":"ashutosh-a2720","service":"cloudresourcemanager.googleapis.com"}},{"@type":"type.googleapis.com/google.rpc.LocalizedMessage","locale":"en-US","message":"Caller does not have required permission to use project ashutosh-a2720. Grant the caller the roles/serviceusage.serviceUsageConsumer role, or a custom role with the serviceusage.services.use permission, by visiting https://console.developers.google.com/iam-admin/iam/project?project=ashutosh-a2720 and then retry. Propagation of the new permission may take a few minutes."},{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Google developer console IAM admin","url":"https://console.developers.google.com/iam-admin/iam/project?project=ashutosh-a2720"}]}]}}
+[debug] [2026-01-30T16:54:37.422Z] [iam] error while checking permissions, command may fail: Request to https://cloudresourcemanager.googleapis.com/v1/projects/ashutosh-a2720:testIamPermissions had HTTP Error: 403, Caller does not have required permission to use project ashutosh-a2720. Grant the caller the roles/serviceusage.serviceUsageConsumer role, or a custom role with the serviceusage.services.use permission, by visiting https://console.developers.google.com/iam-admin/iam/project?project=ashutosh-a2720 and then retry. Propagation of the new permission may take a few minutes.
+[debug] [2026-01-30T16:54:37.422Z] Checked if tokens are valid: true, expires at: 1769795644858
+[debug] [2026-01-30T16:54:37.422Z] Checked if tokens are valid: true, expires at: 1769795644858
+[debug] [2026-01-30T16:54:37.422Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/ashutosh-a2720 [none]
+[debug] [2026-01-30T16:54:37.831Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/ashutosh-a2720 403
+[debug] [2026-01-30T16:54:37.831Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/ashutosh-a2720 {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2026-01-30T16:54:37.831Z] Request to https://firebase.googleapis.com/v1beta1/projects/ashutosh-a2720 had HTTP Error: 403, The caller does not have permission
+[debug] [2026-01-30T16:54:37.978Z] FirebaseError: Request to https://firebase.googleapis.com/v1beta1/projects/ashutosh-a2720 had HTTP Error: 403, The caller does not have permission
+    at responseToError (/Users/ashutosh/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/responseToError.js:53:12)
+    at RetryOperation._fn (/Users/ashutosh/.npm/_npx/7750544ccf494d8b/node_modules/firebase-tools/lib/apiv2.js:330:77)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[error] 
+[error] Error: Failed to get Firebase project ashutosh-a2720. Please make sure the project exists and your account has permission to access it.
