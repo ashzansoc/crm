@@ -8,7 +8,7 @@ else
     echo "Creating new bench..."
 fi
 
-bench init --skip-redis-config-generation frappe-bench --version version-15
+bench init --skip-redis-config-generation frappe-bench --version version-15 --python python3.10
 
 cd frappe-bench
 
@@ -22,7 +22,11 @@ bench set-redis-socketio-host redis://redis:6379
 sed -i '/redis/d' ./Procfile
 sed -i '/watch/d' ./Procfile
 
-bench get-app crm --branch main
+# Link local app instead of cloning
+if [ ! -d "apps/crm" ]; then
+    ln -sf /workspace apps/crm
+    ./env/bin/pip install -e apps/crm
+fi
 
 bench new-site crm.localhost \
     --force \

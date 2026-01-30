@@ -1,0 +1,36 @@
+version: "3"
+services:
+  mariadb:
+    image: mariadb:10.6
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    restart: always
+
+  redis:
+    image: redis:alpine
+    restart: always
+
+  frappe:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    image: crm-app:latest
+    command: bench start
+    environment:
+      - FORCE_HTTPS=0
+    volumes:
+      - sites:/home/frappe/bench/sites
+      - logs:/home/frappe/bench/logs
+    ports:
+      - 80:8000
+    depends_on:
+      - mariadb
+      - redis
+    restart: always
+
+volumes:
+  mariadb-data:
+  sites:
+  logs:

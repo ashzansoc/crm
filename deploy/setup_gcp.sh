@@ -1,0 +1,95 @@
+#!/bin/bash
+
+# Configuration
+PROJECT_ID=$(gcloud config get-value project)
+ZONE="us-central1-a"
+VM_NAME="crm-server"
+MACHINE_TYPE="e2-medium" # 2 vCPU, 4GB RAM - Minimum for Frappe
+
+echo "=========================================="
+echo "Deploying Frappe CRM to GCP"
+echo "Project: $PROJECT_ID"
+echo "VM Name: $VM_NAME"
+echo "Zone:    $ZONE"
+echo "=========================================="
+
+# 1. Create Firewall Rule (if not exists)
+echo "Checking firewall rules..."
+gcloud compute firewall-rules create default-allow-http \
+    --direction=INGRESS \
+    --priority=1000 \
+    --network=default \
+    --action=ALLOW \
+    --rules=tcp:80 \
+    --source-ranges=0.0.0.0/0 \
+    --target-tags=http-server \
+    --quiet || echo "Firewall rule might already exist."
+
+# 2. Create VM
+echo "Creating VM instance..."
+gcloud compute instances create $VM_NAME \
+    --project=$PROJECT_ID \
+    --zone=$ZONE \
+    --machine-type=$MACHINE_TYPE \
+    --image-family=ubuntu-2204-lts \
+    --image-project=ubuntu-os-cloud \
+    --tags=http-server,https-server \
+    --boot-disk-size=20GB \
+    --metadata=startup-script='#! /bin/bash
+# Install Docker
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+usermod -aG docker ubuntu
+systemctl enable docker
+systemctl start docker
+
+# Add 2GB Swap
+fallocate -l 2G /swapfile
+chmod 600 /swapfile
+mkswap /swapfile
+swapon /swapfile
+echo "/swapfile none swap sw 0 0" >> /etc/fstab
+'
+
+echo "Waiting for VM to initialize (60s)..."
+sleep 60
+
+# 3. Prepare and Copy Files
+echo "Packaging application..."
+# Go to project root (assuming script is in crm/deploy/)
+cd "$(dirname "$0")/../.."
+# Tar the crm directory, excluding heavy/unnecessary files
+tar --exclude='node_modules' \
+    --exclude='.git' \
+    --exclude='frappe-bench' \
+    --exclude='*.tar.gz' \
+    -czf crm-deploy.tar.gz crm
+
+echo "Uploading application to VM..."
+gcloud compute scp crm-deploy.tar.gz ubuntu@$VM_NAME:~ --zone=$ZONE --project=$PROJECT_ID
+
+# 4. Deploy on VM
+echo "Building and starting containers on VM..."
+gcloud compute ssh ubuntu@$VM_NAME --zone=$ZONE --project=$PROJECT_ID --command='
+# Extract
+tar -xzf crm-deploy.tar.gz
+cd crm
+
+# Wait for Docker to be ready
+while ! docker system info > /dev/null 2>&1; do
+  echo "Waiting for Docker to start..."
+  sleep 5
+done
+
+# Run Docker Compose
+sudo docker compose -f deploy/docker-compose.prod.yml up -d --build
+'
+
+# 5. Get IP
+IP=$(gcloud compute instances describe $VM_NAME --zone=$ZONE --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
+
+echo "=========================================="
+echo "Deployment Complete!"
+echo "Your CRM is accessible at: http://$IP"
+echo "=========================================="
+echo "Note: It might take a few minutes for the site to be fully ready after the container starts."

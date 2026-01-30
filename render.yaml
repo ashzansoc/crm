@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: crm
+    runtime: docker
+    dockerContext: .
+    dockerfilePath: deploy/Dockerfile
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: crm-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: crm-db
+          property: port
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: crm-redis
+          property: connectionString
+      - key: SITE_NAME
+        value: crm.onrender.com
+    plan: free
+
+  - type: redis
+    name: crm-redis
+    plan: free
+    ipAllowList: [] # Allow internal access only
+
+databases:
+  - name: crm-db
+    plan: free
+    databaseName: frappe_crm
+    user: frappe
