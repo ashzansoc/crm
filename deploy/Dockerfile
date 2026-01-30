@@ -1,7 +1,7 @@
 FROM python:3.11-slim
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y git build-essential pkg-config mariadb-client libmariadb-dev libpq-dev postgresql-client curl gnupg
+RUN apt-get update && apt-get install -y git build-essential pkg-config mariadb-client libmariadb-dev libpq-dev postgresql-client curl gnupg libyaml-dev
 
 # Install Node.js 18
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
@@ -21,7 +21,8 @@ USER frappe
 WORKDIR /home/frappe
 
 # Initialize bench
-RUN bench init --skip-redis-config-generation --skip-assets --frappe-branch version-15 --python python3.11 frappe-bench
+RUN git config --global user.email "frappe@example.com" && git config --global user.name "Frappe User"
+RUN bench init --verbose --skip-redis-config-generation --skip-assets --frappe-branch version-15 --python python3.11 frappe-bench
 
 WORKDIR /home/frappe/frappe-bench
 
