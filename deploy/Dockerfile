@@ -1,7 +1,11 @@
 FROM python:3.11-slim
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y git build-essential pkg-config mariadb-client libmariadb-dev libpq-dev postgresql-client curl nodejs npm cron
+RUN apt-get update && apt-get install -y git build-essential pkg-config mariadb-client libmariadb-dev libpq-dev postgresql-client curl gnupg
+
+# Install Node.js 18
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs
 
 # Install yarn
 RUN npm install -g yarn
@@ -44,6 +48,9 @@ RUN yarn build
 
 # Switch back to bench
 WORKDIR /home/frappe/frappe-bench
+
+# Install frappe node dependencies explicitly
+RUN cd apps/frappe && yarn install
 
 # Build assets (only for frappe, since crm has no standard assets)
 RUN bench build --app frappe
