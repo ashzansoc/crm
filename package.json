@@ -18,5 +18,9 @@
 		"dev": "cd frontend && yarn dev",
 		"build": "cd frontend && yarn build",
 		"upgrade-frappeui": "cd frontend && yarn add frappe-ui@latest && cd .."
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^20.4.0",
+		"conventional-changelog-conventionalcommits": "^9.1.0"
 	}
 }
