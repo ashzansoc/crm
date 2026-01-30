@@ -9,6 +9,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
 
 # Install yarn
 RUN npm install -g yarn
+RUN yarn config set network-timeout 1000000
 
 # Create user
 RUN useradd -ms /bin/bash frappe
