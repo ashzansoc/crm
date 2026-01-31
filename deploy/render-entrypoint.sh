@@ -41,11 +41,10 @@ if [ ! -d "sites/$SITE_NAME" ]; then
     echo "Creating site with DB Type: $DB_TYPE"
 
     # Create the site
-    # We use --force to overwrite if necessary, and --no-mariadb-socket to use TCP
+    # We use --force to overwrite if necessary
     # We temporarily disable exit on error to capture failure
     set +e
     bench new-site "$SITE_NAME" \
-        --no-mariadb-socket \
         --db-type "$DB_TYPE" \
         --admin-password "${ADMIN_PASSWORD:-admin}" \
         $DB_ROOT_PASS_ARG \
