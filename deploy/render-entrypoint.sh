@@ -35,14 +35,31 @@ if [ ! -d "sites/$SITE_NAME" ]; then
         DB_ROOT_PASS_ARG="--db-root-password $DB_ROOT_PASSWORD"
     fi
 
+    # Determine DB Type (default to mariadb)
+    DB_TYPE=${DB_TYPE:-mariadb}
+
+    echo "Creating site with DB Type: $DB_TYPE"
+
     # Create the site
     # We use --force to overwrite if necessary, and --no-mariadb-socket to use TCP
+    # We temporarily disable exit on error to capture failure
+    set +e
     bench new-site "$SITE_NAME" \
         --no-mariadb-socket \
+        --db-type "$DB_TYPE" \
         --admin-password "${ADMIN_PASSWORD:-admin}" \
         $DB_ROOT_PASS_ARG \
         --install-app crm \
         --force
+    
+    EXIT_CODE=$?
+    set -e
+
+    if [ $EXIT_CODE -ne 0 ]; then
+        echo "ERROR: bench new-site failed with exit code $EXIT_CODE"
+        echo "Please check the logs above for database connection errors."
+        exit $EXIT_CODE
+    fi
 
     bench use "$SITE_NAME"
     
