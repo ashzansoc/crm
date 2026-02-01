@@ -38,6 +38,13 @@ WORKDIR /home/frappe/frappe-bench
 # Install postgres support
 RUN ./env/bin/pip install psycopg2-binary
 
+# Ensure common_site_config.json exists (needed for bench build sometimes)
+RUN echo '{"socketio_port": 9000}' > /home/frappe/frappe-bench/sites/common_site_config.json
+
+# Build Frappe Assets (moved up to isolate failure and ensure base is ready)
+RUN cd apps/frappe && yarn install
+RUN bench build --app frappe --force
+
 # Copy local app
 COPY --chown=frappe:frappe . /home/frappe/frappe-bench/apps/crm
 
@@ -48,9 +55,6 @@ RUN echo "crm" >> sites/apps.txt
 # Workaround for ModuleNotFoundError: No module named 'frappecrm'
 RUN ln -s /home/frappe/frappe-bench/apps/crm/crm /home/frappe/frappe-bench/apps/crm/frappecrm
 
-# Ensure common_site_config.json exists for frontend build
-RUN echo '{"socketio_port": 9000}' > /home/frappe/frappe-bench/sites/common_site_config.json
-
 # Build Frontend
 WORKDIR /home/frappe/frappe-bench/apps/crm/frontend
 RUN yarn install
@@ -58,13 +62,6 @@ RUN yarn build
 
 # Switch back to bench
 WORKDIR /home/frappe/frappe-bench
-
-# Install frappe node dependencies explicitly (if needed)
-RUN cd apps/frappe && yarn install
-
-# Build assets (only for frappe, since crm has no standard assets)
-RUN cd apps/frappe && yarn install
-RUN bench build --app frappe --force --hard-link --verbose
 
 # Copy entrypoint
 USER root
