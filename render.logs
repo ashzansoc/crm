@@ -1,0 +1,50 @@
+2026-02-01T07:14:10.173491377Z #33 [27/31] RUN echo '{"js": [], "css": [], "include_js": [], "include_css": []}' > apps/crm/build.json
+2026-02-01T07:14:10.182949172Z #33 DONE 0.2s
+2026-02-01T07:14:10.313260814Z 
+2026-02-01T07:14:10.313289004Z #34 [28/31] RUN echo '{"socketio_port": 9000}' > /home/frappe/frappe-bench/sites/common_site_config.json
+2026-02-01T07:14:10.313294354Z #34 DONE 0.1s
+2026-02-01T07:14:10.517021993Z 
+2026-02-01T07:14:10.517052474Z #35 [29/31] COPY deploy/render-entrypoint.sh /usr/local/bin/render-entrypoint.sh
+2026-02-01T07:14:10.517056444Z #35 DONE 0.1s
+2026-02-01T07:14:10.517059254Z 
+2026-02-01T07:14:10.517062864Z #36 [30/31] RUN chmod +x /usr/local/bin/render-entrypoint.sh
+2026-02-01T07:14:10.517065825Z #36 DONE 0.1s
+2026-02-01T07:14:10.651661838Z 
+2026-02-01T07:14:10.651683939Z #37 [31/31] RUN chown frappe:frappe /usr/local/bin/render-entrypoint.sh
+2026-02-01T07:14:10.651688579Z #37 DONE 0.1s
+2026-02-01T07:14:10.806522004Z 
+2026-02-01T07:14:10.806545104Z #38 exporting to docker image format
+2026-02-01T07:14:10.806550415Z #38 exporting layers
+2026-02-01T07:15:04.253431014Z #38 exporting layers 53.6s done
+2026-02-01T07:15:04.404705434Z #38 exporting manifest sha256:74707eec7465ff669eaf98cbddf62e9185cc3a925698aa6e724b99bdd00b8f58
+2026-02-01T07:15:04.450164016Z #38 exporting manifest sha256:74707eec7465ff669eaf98cbddf62e9185cc3a925698aa6e724b99bdd00b8f58 0.2s done
+2026-02-01T07:15:04.450184367Z #38 exporting config sha256:8e9519e63d9b8efb61ecf93bda6b6022729d618acd359d603675ef3f7f2aeee0
+2026-02-01T07:15:04.778631173Z #38 exporting config sha256:8e9519e63d9b8efb61ecf93bda6b6022729d618acd359d603675ef3f7f2aeee0 0.3s done
+2026-02-01T07:15:15.756457195Z #38 DONE 65.1s
+2026-02-01T07:15:15.906730431Z 
+2026-02-01T07:15:15.906752862Z #39 exporting cache to client directory
+2026-02-01T07:15:15.906756332Z #39 preparing build cache for export
+2026-02-01T07:15:29.537142642Z #39 writing cache image manifest sha256:7d70b956472ef330c4fa7da0225c34ec4f1fc285b2c28c4278a765b0abc507a6 done
+2026-02-01T07:15:29.537163583Z #39 DONE 13.7s
+2026-02-01T07:15:31.206791206Z Pushing image to registry...
+2026-02-01T07:15:45.417445668Z Upload succeeded
+2026-02-01T07:15:49.90991559Z ==> Deploying...
+2026-02-01T07:15:50.01410486Z ==> Setting WEB_CONCURRENCY=1 by default, based on available CPUs in the instance
+2026-02-01T07:17:34.304600556Z ==> No open ports detected, continuing to scan...
+2026-02-01T07:17:34.407192448Z ==> Docs on specifying a port: https://render.com/docs/web-services#port-binding
+2026-02-01T07:17:56.604962665Z Site crm.onrender.com does not exist. Attempting to create...
+2026-02-01T07:17:56.604995386Z Creating site with DB Type: postgres
+2026-02-01T07:18:00.100603625Z Warning: Password input may be echoed.
+2026-02-01T07:18:00.100714027Z Postgres super user password: 
+2026-02-01T07:18:00.100886131Z Aborted!
+2026-02-01T07:18:00.59538125Z ERROR: bench new-site failed with exit code 1
+2026-02-01T07:18:00.5953964Z Please check the logs above for database connection errors.
+2026-02-01T07:18:02.508742186Z ==> Exited with status 1
+2026-02-01T07:18:02.511021716Z ==> Common ways to troubleshoot your deploy: https://render.com/docs/troubleshooting-deploys
+2026-02-01T07:18:24.115687554Z Site crm.onrender.com does not exist. Attempting to create...
+2026-02-01T07:18:24.115720845Z Creating site with DB Type: postgres
+2026-02-01T07:18:27.721486672Z Warning: Password input may be echoed.
+2026-02-01T07:18:27.721593324Z Postgres super user password: 
+2026-02-01T07:18:27.721726497Z Aborted!
+2026-02-01T07:18:28.303819592Z ERROR: bench new-site failed with exit code 1
+2026-02-01T07:18:28.303837043Z Please check the logs above for database connection errors.

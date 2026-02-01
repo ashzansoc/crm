@@ -241,6 +241,11 @@ const links = [
     icon: PhoneIcon,
     to: 'Call Logs',
   },
+  {
+    label: 'Chat With AI',
+    icon: CommentIcon,
+    to: 'Chat With AI',
+  },
 ]
 
 const allViews = computed(() => {

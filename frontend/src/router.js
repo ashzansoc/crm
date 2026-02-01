@@ -90,6 +90,11 @@ const routes = [
     component: () => import('@/pages/Calendar.vue'),
   },
   {
+    path: '/chat-with-ai',
+    name: 'Chat With AI',
+    component: () => import('@/pages/ChatWithAI.vue'),
+  },
+  {
     path: '/data-import',
     name: 'DataImportList',
     component: () => import('@/pages/DataImport.vue'),
