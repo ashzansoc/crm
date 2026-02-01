@@ -38,6 +38,13 @@ if [ ! -d "sites/$SITE_NAME" ]; then
     # Determine DB Type (default to mariadb)
     DB_TYPE=${DB_TYPE:-mariadb}
 
+    # Determine DB Host argument for new-site command
+    # This is crucial for Postgres to know where to connect during site creation
+    DB_HOST_ARG=""
+    if [ -n "$DB_HOST" ]; then
+        DB_HOST_ARG="--db-host $DB_HOST"
+    fi
+
     echo "Creating site with DB Type: $DB_TYPE"
 
     # Create the site
@@ -46,6 +53,7 @@ if [ ! -d "sites/$SITE_NAME" ]; then
     set +e
     bench new-site "$SITE_NAME" \
         --db-type "$DB_TYPE" \
+        $DB_HOST_ARG \
         --admin-password "${ADMIN_PASSWORD:-admin}" \
         $DB_ROOT_PASS_ARG \
         --install-app crm \
