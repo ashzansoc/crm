@@ -13,6 +13,14 @@ services:
         fromDatabase:
           name: crm-db
           property: port
+      - key: DB_ROOT_PASSWORD
+        fromDatabase:
+          name: crm-db
+          property: password
+      - key: DB_ROOT_USER
+        fromDatabase:
+          name: crm-db
+          property: user
       - key: REDIS_URL
         fromService:
           type: redis
@@ -20,6 +28,10 @@ services:
           property: connectionString
       - key: SITE_NAME
         value: crm.onrender.com
+      - key: DB_TYPE
+        value: postgres
+      - key: ADMIN_PASSWORD
+        generateValue: true
     plan: free
 
   - type: redis

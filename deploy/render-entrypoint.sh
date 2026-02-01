@@ -35,6 +35,12 @@ if [ ! -d "sites/$SITE_NAME" ]; then
         DB_ROOT_PASS_ARG="--db-root-password $DB_ROOT_PASSWORD"
     fi
 
+    # Determine DB root user argument (for Postgres)
+    DB_ROOT_USER_ARG=""
+    if [ -n "$DB_ROOT_USER" ]; then
+        DB_ROOT_USER_ARG="--db-root-username $DB_ROOT_USER"
+    fi
+
     # Determine DB Type (default to mariadb)
     DB_TYPE=${DB_TYPE:-mariadb}
 
@@ -46,6 +52,10 @@ if [ ! -d "sites/$SITE_NAME" ]; then
     fi
 
     echo "Creating site with DB Type: $DB_TYPE"
+    echo "DB Host: ${DB_HOST:-not set}"
+    echo "DB Port: ${DB_PORT:-not set}"
+    echo "DB Root User: ${DB_ROOT_USER:-not set}"
+    echo "DB Root Password: ${DB_ROOT_PASSWORD:+***set***}"
 
     # Create the site
     # We use --force to overwrite if necessary
@@ -54,6 +64,7 @@ if [ ! -d "sites/$SITE_NAME" ]; then
     bench new-site "$SITE_NAME" \
         --db-type "$DB_TYPE" \
         $DB_HOST_ARG \
+        $DB_ROOT_USER_ARG \
         --admin-password "${ADMIN_PASSWORD:-admin}" \
         $DB_ROOT_PASS_ARG \
         --install-app crm \
