@@ -13,6 +13,11 @@ if [ -n "$DB_PORT" ]; then
     bench set-config -g db_port $DB_PORT
 fi
 
+# Configure database name for Postgres
+if [ -n "$DB_NAME" ]; then
+    bench set-config -g db_name $DB_NAME
+fi
+
 # Configure Redis
 if [ -n "$REDIS_URL" ]; then
     bench set-config -g redis_cache $REDIS_URL
@@ -41,6 +46,12 @@ if [ ! -d "sites/$SITE_NAME" ]; then
         DB_ROOT_USER_ARG="--db-root-username $DB_ROOT_USER"
     fi
 
+    # Determine DB name argument (for Postgres)
+    DB_NAME_ARG=""
+    if [ -n "$DB_NAME" ]; then
+        DB_NAME_ARG="--db-name $DB_NAME"
+    fi
+
     # Determine DB Type (default to mariadb)
     DB_TYPE=${DB_TYPE:-mariadb}
 
@@ -54,6 +65,7 @@ if [ ! -d "sites/$SITE_NAME" ]; then
     echo "Creating site with DB Type: $DB_TYPE"
     echo "DB Host: ${DB_HOST:-not set}"
     echo "DB Port: ${DB_PORT:-not set}"
+    echo "DB Name: ${DB_NAME:-not set}"
     echo "DB Root User: ${DB_ROOT_USER:-not set}"
     echo "DB Root Password: ${DB_ROOT_PASSWORD:+***set***}"
 
@@ -64,6 +76,7 @@ if [ ! -d "sites/$SITE_NAME" ]; then
     bench new-site "$SITE_NAME" \
         --db-type "$DB_TYPE" \
         $DB_HOST_ARG \
+        $DB_NAME_ARG \
         $DB_ROOT_USER_ARG \
         --admin-password "${ADMIN_PASSWORD:-admin}" \
         $DB_ROOT_PASS_ARG \
