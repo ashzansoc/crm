@@ -68,6 +68,8 @@ USER root
 COPY deploy/render-entrypoint.sh /usr/local/bin/render-entrypoint.sh
 RUN chmod +x /usr/local/bin/render-entrypoint.sh
 RUN chown frappe:frappe /usr/local/bin/render-entrypoint.sh
+# Fix line endings just in case
+RUN sed -i 's/\r$//' /usr/local/bin/render-entrypoint.sh
 
 # Switch back to frappe user
 USER frappe
