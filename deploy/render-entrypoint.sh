@@ -39,7 +39,7 @@ if [ ! -d "sites/$SITE_NAME" ]; then
     DB_TYPE=${DB_TYPE:-mariadb}
 
     # Determine DB Host argument for new-site command
-    # This is crucial for Postgres to know where to connect during site creation
+    # This is crucial for Postgres to avoid socket connection attempts
     DB_HOST_ARG=""
     if [ -n "$DB_HOST" ]; then
         DB_HOST_ARG="--db-host $DB_HOST"
