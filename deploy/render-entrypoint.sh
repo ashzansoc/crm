@@ -4,18 +4,32 @@ set -e
 
 cd /home/frappe/frappe-bench
 
-# Configure DB
+# Configure DB BEFORE any bench commands that might try to connect
 if [ -n "$DB_HOST" ]; then
-    bench set-config -g db_host $DB_HOST
+    echo "db_host: $DB_HOST" >> sites/common_site_config.json.tmp
 fi
 
 if [ -n "$DB_PORT" ]; then
-    bench set-config -g db_port $DB_PORT
+    echo "db_port: $DB_PORT" >> sites/common_site_config.json.tmp
 fi
 
-# Configure database name for Postgres
 if [ -n "$DB_NAME" ]; then
-    bench set-config -g db_name $DB_NAME
+    echo "db_name: $DB_NAME" >> sites/common_site_config.json.tmp
+fi
+
+# If we have temp config, merge it properly into JSON
+if [ -f "sites/common_site_config.json.tmp" ]; then
+    # Create proper JSON config
+    cat > sites/common_site_config.json << EOF
+{
+  "socketio_port": 9000,
+  "db_host": "${DB_HOST}",
+  "db_port": ${DB_PORT:-5432},
+  "db_name": "${DB_NAME:-frappe_crm}",
+  "developer_mode": 0
+}
+EOF
+    rm -f sites/common_site_config.json.tmp
 fi
 
 # Configure Redis
@@ -24,9 +38,6 @@ if [ -n "$REDIS_URL" ]; then
     bench set-config -g redis_queue $REDIS_URL
     bench set-config -g redis_socketio $REDIS_URL
 fi
-
-# Set other configs
-bench set-config -g developer_mode 0
 
 # Automatic Site Creation
 SITE_NAME=${SITE_NAME:-"frontend"}
@@ -46,12 +57,6 @@ if [ ! -d "sites/$SITE_NAME" ]; then
         DB_ROOT_USER_ARG="--db-root-username $DB_ROOT_USER"
     fi
 
-    # Determine DB name argument (for Postgres)
-    DB_NAME_ARG=""
-    if [ -n "$DB_NAME" ]; then
-        DB_NAME_ARG="--db-name $DB_NAME"
-    fi
-
     # Determine DB Type (default to mariadb)
     DB_TYPE=${DB_TYPE:-mariadb}
 
@@ -69,19 +74,35 @@ if [ ! -d "sites/$SITE_NAME" ]; then
     echo "DB Root User: ${DB_ROOT_USER:-not set}"
     echo "DB Root Password: ${DB_ROOT_PASSWORD:+***set***}"
 
+    # For Postgres, we need to use the existing database name
+    # The --db-name flag tells bench to use this existing database instead of creating a new one
     # Create the site
     # We use --force to overwrite if necessary
     # We temporarily disable exit on error to capture failure
     set +e
-    bench new-site "$SITE_NAME" \
-        --db-type "$DB_TYPE" \
-        $DB_HOST_ARG \
-        $DB_NAME_ARG \
-        $DB_ROOT_USER_ARG \
-        --admin-password "${ADMIN_PASSWORD:-admin}" \
-        $DB_ROOT_PASS_ARG \
-        --install-app crm \
-        --force
+    
+    if [ "$DB_TYPE" = "postgres" ]; then
+        # For Postgres, use the existing database
+        bench new-site "$SITE_NAME" \
+            --db-type "$DB_TYPE" \
+            $DB_HOST_ARG \
+            --db-name "${DB_NAME:-frappe_crm}" \
+            $DB_ROOT_USER_ARG \
+            --admin-password "${ADMIN_PASSWORD:-admin}" \
+            $DB_ROOT_PASS_ARG \
+            --install-app crm \
+            --force
+    else
+        # For MariaDB, let it create the database
+        bench new-site "$SITE_NAME" \
+            --db-type "$DB_TYPE" \
+            $DB_HOST_ARG \
+            $DB_ROOT_USER_ARG \
+            --admin-password "${ADMIN_PASSWORD:-admin}" \
+            $DB_ROOT_PASS_ARG \
+            --install-app crm \
+            --force
+    fi
     
     EXIT_CODE=$?
     set -e
