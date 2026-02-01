@@ -90,6 +90,9 @@ jobs:
                 command: bench start
                 environment:
                   - FORCE_HTTPS=0
+                  - DB_HOST=mariadb
+                  - DB_ROOT_PASSWORD=123
+                  - REDIS_URL=redis://redis:6379
                 volumes:
                   - sites:/home/frappe/frappe-bench/sites
                   - logs:/home/frappe/frappe-bench/logs
