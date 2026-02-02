@@ -23,6 +23,15 @@ fi
 # Set other configs
 bench set-config -g developer_mode 0
 
+# Restore assets from cache (to handle volume masking)
+if [ -d "/home/frappe/assets_cache" ]; then
+    echo "Restoring assets from cache..."
+    cp -R /home/frappe/assets_cache/* /home/frappe/frappe-bench/sites/assets/
+fi
+
+# Ensure apps.txt is correct (to handle volume persistence of old bad config)
+echo "frappe" > sites/apps.txt && echo "crm" >> sites/apps.txt
+
 # Automatic Site Creation
 SITE_NAME=${SITE_NAME:-"frontend"}
 

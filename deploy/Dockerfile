@@ -72,6 +72,10 @@ WORKDIR /home/frappe/frappe-bench
 # Build assets for crm app
 RUN bench build --app crm --force
 
+# Cache assets to avoid volume masking issues
+RUN mkdir -p /home/frappe/assets_cache && \
+    cp -R /home/frappe/frappe-bench/sites/assets/* /home/frappe/assets_cache/
+
 # Copy entrypoint
 USER root
 COPY deploy/render-entrypoint.sh /usr/local/bin/render-entrypoint.sh
