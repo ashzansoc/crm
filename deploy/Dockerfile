@@ -56,6 +56,11 @@ COPY --chown=frappe:frappe . /home/frappe/frappe-bench/apps/crm
 RUN ./env/bin/pip install -e apps/crm
 RUN echo "frappe" > sites/apps.txt && echo "crm" >> sites/apps.txt
 
+# Workaround for ModuleNotFoundError: No module named 'frappecrm'
+# The app name is 'crm' but sometimes it might be referred to as 'frappecrm' in some contexts or imports
+# We create a symlink to ensure it can be found if imported as 'frappecrm'
+RUN ln -s /home/frappe/frappe-bench/apps/crm/crm /home/frappe/frappe-bench/apps/crm/frappecrm
+
 # Build Frontend
 WORKDIR /home/frappe/frappe-bench/apps/crm/frontend
 RUN yarn install
