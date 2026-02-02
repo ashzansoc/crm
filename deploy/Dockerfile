@@ -69,6 +69,9 @@ RUN yarn build
 # Switch back to bench
 WORKDIR /home/frappe/frappe-bench
 
+# Build assets for crm app
+RUN bench build --app crm --force
+
 # Copy entrypoint
 USER root
 COPY deploy/render-entrypoint.sh /usr/local/bin/render-entrypoint.sh
