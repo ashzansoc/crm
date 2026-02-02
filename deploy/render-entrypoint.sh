@@ -22,6 +22,9 @@ fi
 
 # Set other configs
 bench set-config -g developer_mode 0
+bench set-config -g serve_default_site 1
+bench set-config -g restart_supervisor_on_update 0
+bench set-config -g restart_systemd_on_update 0
 
 # Restore assets from cache (to handle volume masking)
 if [ -d "/home/frappe/assets_cache" ]; then
@@ -84,11 +87,21 @@ if [ ! -d "sites/$SITE_NAME" ]; then
 
     bench use "$SITE_NAME"
     
+    # Clear cache and rebuild assets to ensure they're properly linked
+    echo "Clearing cache and ensuring assets are available..."
+    bench --site "$SITE_NAME" clear-cache
+    bench --site "$SITE_NAME" build
+    
     # Enable scheduler
     bench --site "$SITE_NAME" enable-scheduler
 else
     echo "Site $SITE_NAME already exists."
     bench use "$SITE_NAME"
+    
+    # Ensure assets are available
+    echo "Ensuring assets are available..."
+    bench --site "$SITE_NAME" clear-cache
+    bench --site "$SITE_NAME" build
 fi
 
 # Execute the command
