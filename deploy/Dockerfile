@@ -26,6 +26,10 @@ RUN pip install --upgrade pip && pip install frappe-bench
 USER frappe
 WORKDIR /home/frappe
 
+# Fix SSL issue for MariaDB client
+RUN echo "[client]" > /home/frappe/.my.cnf && \
+    echo "ssl=0" >> /home/frappe/.my.cnf
+
 # Configure git
 RUN git config --global user.email "frappe@example.com" && git config --global user.name "Frappe User"
 RUN git config --global http.postBuffer 524288000
@@ -50,10 +54,7 @@ COPY --chown=frappe:frappe . /home/frappe/frappe-bench/apps/crm
 
 # Install app
 RUN ./env/bin/pip install -e apps/crm
-RUN echo "crm" >> sites/apps.txt
-
-# Workaround for ModuleNotFoundError: No module named 'frappecrm'
-RUN ln -s /home/frappe/frappe-bench/apps/crm/crm /home/frappe/frappe-bench/apps/crm/frappecrm
+RUN echo "frappe" > sites/apps.txt && echo "crm" >> sites/apps.txt
 
 # Build Frontend
 WORKDIR /home/frappe/frappe-bench/apps/crm/frontend
